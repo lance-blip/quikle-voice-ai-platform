@@ -16,6 +16,7 @@ import Automations from "./pages/Automations";
 import VoiceLibrary from "./pages/VoiceLibrary";
 import Settings from "./pages/Settings";
 import IntegrationsDashboard from "./pages/IntegrationsDashboard";
+import CallAnalysis from "./pages/CallAnalysis";
 import LiveMonitoring from "./pages/LiveMonitoring";
 import AgentTesting from "./pages/AgentTesting";
 import Integrations from "./pages/Integrations";
@@ -37,6 +38,7 @@ function Router() {
       <Route path="/voices" component={VoiceLibrary} />
       <Route path="/settings" component={Settings} />
       <Route path="/integrations-dashboard" component={IntegrationsDashboard} />
+      <Route path="/call-analysis" component={CallAnalysis} />
       <Route path="/live-monitoring" component={LiveMonitoring} />
       <Route path="/testing" component={AgentTesting} />
       <Route path="/integrations" component={Integrations} />
