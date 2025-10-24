@@ -2,6 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
+import AIChatbot from "@/components/AIChatbot";
 import { Bot, Zap, Users, BarChart3, Mic, Workflow, Shield, Globe } from "lucide-react";
 import { Link } from "wouter";
 
@@ -298,6 +299,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      <AIChatbot />
     </div>
   );
 }

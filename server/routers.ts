@@ -4,11 +4,13 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { integrationsRouter } from "./routers/integrations";
+import { chatbotRouter } from "./routers/chatbot";
 import * as db from "./db";
 
 export const appRouter = router({
   system: systemRouter,
   integrations: integrationsRouter,
+  chatbot: chatbotRouter,
 
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
