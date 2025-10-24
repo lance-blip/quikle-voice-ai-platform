@@ -1,6 +1,29 @@
-import { eq } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { 
+  InsertUser, 
+  users, 
+  agencies,
+  clients,
+  agents,
+  knowledgeBase,
+  phoneNumbers,
+  callLogs,
+  automations,
+  automationLogs,
+  voiceClones,
+  Agency,
+  Client,
+  Agent,
+  InsertAgency,
+  InsertClient,
+  InsertAgent,
+  InsertKnowledgeBase,
+  InsertPhoneNumber,
+  InsertCallLog,
+  InsertAutomation,
+  InsertVoiceClone
+} from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +112,213 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Agency queries
+export async function getAgencyByOwnerId(ownerId: number): Promise<Agency | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db.select().from(agencies).where(eq(agencies.ownerId, ownerId)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createAgency(data: InsertAgency): Promise<Agency> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(agencies).values(data);
+  const insertId = (result as any).insertId || result[0]?.insertId;
+  const inserted = await db.select().from(agencies).where(eq(agencies.id, Number(insertId))).limit(1);
+  return inserted[0];
+}
+
+export async function updateAgency(id: number, data: Partial<InsertAgency>): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(agencies).set(data).where(eq(agencies.id, id));
+}
+
+// Client queries
+export async function getClientsByAgencyId(agencyId: number): Promise<Client[]> {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(clients).where(eq(clients.agencyId, agencyId)).orderBy(desc(clients.createdAt));
+}
+
+export async function getClientById(id: number): Promise<Client | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db.select().from(clients).where(eq(clients.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createClient(data: InsertClient): Promise<Client> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(clients).values(data);
+  const insertId = (result as any).insertId || result[0]?.insertId;
+  const inserted = await db.select().from(clients).where(eq(clients.id, Number(insertId))).limit(1);
+  return inserted[0];
+}
+
+export async function updateClient(id: number, data: Partial<InsertClient>): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(clients).set(data).where(eq(clients.id, id));
+}
+
+export async function deleteClient(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.delete(clients).where(eq(clients.id, id));
+}
+
+// Agent queries
+export async function getAgentsByClientId(clientId: number): Promise<Agent[]> {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(agents).where(eq(agents.clientId, clientId)).orderBy(desc(agents.createdAt));
+}
+
+export async function getAgentById(id: number): Promise<Agent | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db.select().from(agents).where(eq(agents.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createAgent(data: InsertAgent): Promise<Agent> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(agents).values(data);
+  const insertId = (result as any).insertId || result[0]?.insertId;
+  const inserted = await db.select().from(agents).where(eq(agents.id, Number(insertId))).limit(1);
+  return inserted[0];
+}
+
+export async function updateAgent(id: number, data: Partial<InsertAgent>): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(agents).set(data).where(eq(agents.id, id));
+}
+
+export async function deleteAgent(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.delete(agents).where(eq(agents.id, id));
+}
+
+// Knowledge base queries
+export async function getKnowledgeBaseByAgentId(agentId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(knowledgeBase).where(eq(knowledgeBase.agentId, agentId)).orderBy(desc(knowledgeBase.createdAt));
+}
+
+export async function createKnowledgeBase(data: InsertKnowledgeBase) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(knowledgeBase).values(data);
+  const insertId = (result as any).insertId || result[0]?.insertId;
+  const inserted = await db.select().from(knowledgeBase).where(eq(knowledgeBase.id, Number(insertId))).limit(1);
+  return inserted[0];
+}
+
+export async function deleteKnowledgeBase(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.delete(knowledgeBase).where(eq(knowledgeBase.id, id));
+}
+
+// Phone number queries
+export async function getPhoneNumbersByClientId(clientId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(phoneNumbers).where(eq(phoneNumbers.clientId, clientId)).orderBy(desc(phoneNumbers.createdAt));
+}
+
+export async function createPhoneNumber(data: InsertPhoneNumber) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(phoneNumbers).values(data);
+  const insertId = (result as any).insertId || result[0]?.insertId;
+  const inserted = await db.select().from(phoneNumbers).where(eq(phoneNumbers.id, Number(insertId))).limit(1);
+  return inserted[0];
+}
+
+// Call log queries
+export async function getCallLogsByAgentId(agentId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(callLogs).where(eq(callLogs.agentId, agentId)).orderBy(desc(callLogs.createdAt));
+}
+
+export async function createCallLog(data: InsertCallLog) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(callLogs).values(data);
+  const insertId = (result as any).insertId || result[0]?.insertId;
+  const inserted = await db.select().from(callLogs).where(eq(callLogs.id, Number(insertId))).limit(1);
+  return inserted[0];
+}
+
+// Automation queries
+export async function getAutomationsByAgencyId(agencyId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(automations).where(eq(automations.agencyId, agencyId)).orderBy(desc(automations.createdAt));
+}
+
+export async function createAutomation(data: InsertAutomation) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(automations).values(data);
+  const insertId = (result as any).insertId || result[0]?.insertId;
+  const inserted = await db.select().from(automations).where(eq(automations.id, Number(insertId))).limit(1);
+  return inserted[0];
+}
+
+export async function updateAutomation(id: number, data: Partial<InsertAutomation>): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(automations).set(data).where(eq(automations.id, id));
+}
+
+// Voice clone queries
+export async function getVoiceClonesByAgencyId(agencyId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(voiceClones).where(eq(voiceClones.agencyId, agencyId)).orderBy(desc(voiceClones.createdAt));
+}
+
+export async function createVoiceClone(data: InsertVoiceClone) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(voiceClones).values(data);
+  const insertId = (result as any).insertId || result[0]?.insertId;
+  const inserted = await db.select().from(voiceClones).where(eq(voiceClones.id, Number(insertId))).limit(1);
+  return inserted[0];
+}
+
