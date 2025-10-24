@@ -71,14 +71,14 @@ export default function DashboardLayout({
             <div className="relative group">
               <div className="relative">
                 <img
-                  src={APP_LOGO}
-                  alt={APP_TITLE}
+                  src="/quikle-logo.png"
+                  alt="Quikle Voice"
                   className="h-20 w-20 rounded-xl object-cover shadow"
                 />
               </div>
             </div>
             <div className="text-center space-y-2">
-              <h1 className="text-2xl font-bold tracking-tight">{APP_TITLE}</h1>
+              <h1 className="text-2xl font-bold tracking-tight">Quikle Voice</h1>
               <p className="text-sm text-muted-foreground">
                 Please sign in to continue
               </p>
@@ -180,9 +180,9 @@ function DashboardLayoutContent({
               {isCollapsed ? (
                 <div className="relative h-8 w-8 shrink-0 group">
                   <img
-                    src={APP_LOGO}
+                    src="/quikle-logo.png"
                     className="h-8 w-8 rounded-md object-cover ring-1 ring-border"
-                    alt="Logo"
+                    alt="Quikle Voice"
                   />
                   <button
                     onClick={toggleSidebar}
@@ -195,12 +195,12 @@ function DashboardLayoutContent({
                 <>
                   <div className="flex items-center gap-3 min-w-0">
                     <img
-                      src={APP_LOGO}
+                      src="/quikle-logo.png"
                       className="h-8 w-8 rounded-md object-cover ring-1 ring-border shrink-0"
-                      alt="Logo"
+                      alt="Quikle Voice"
                     />
                     <span className="font-semibold tracking-tight truncate">
-                      {APP_TITLE}
+                      Quikle Voice
                     </span>
                   </div>
                   <button
@@ -286,7 +286,7 @@ function DashboardLayoutContent({
               <div className="flex items-center gap-3">
                 <div className="flex flex-col gap-1">
                   <span className="tracking-tight text-foreground">
-                    {activeMenuItem?.label ?? APP_TITLE}
+                    {activeMenuItem?.label ?? "Quikle Voice"}
                   </span>
                 </div>
               </div>

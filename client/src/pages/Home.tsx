@@ -14,8 +14,8 @@ export default function Home() {
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            {APP_LOGO && <img src={APP_LOGO} alt={APP_TITLE} className="h-8 w-8" />}
-            <span className="text-xl font-bold text-primary">{APP_TITLE}</span>
+            <img src="/quikle-logo.png" alt="Quikle Voice" className="h-8 w-8" />
+              <span className="text-xl font-bold text-primary">Quikle Voice</span>
           </div>
           <nav className="flex items-center gap-4">
             {isAuthenticated ? (
@@ -255,8 +255,8 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                {APP_LOGO && <img src={APP_LOGO} alt={APP_TITLE} className="h-6 w-6" />}
-                <span className="font-bold text-primary">{APP_TITLE}</span>
+                <img src="/quikle-logo.png" alt="Quikle Voice" className="h-6 w-6" />
+                <span className="font-bold text-primary">Quikle Voice</span>
               </div>
               <p className="text-sm text-muted-foreground">
                 Build powerful AI voice agents without code.
@@ -294,7 +294,7 @@ export default function Home() {
           </div>
 
           <div className="border-t mt-12 pt-8 text-center text-sm text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} {APP_TITLE}. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Quikle Voice. All rights reserved.</p>
           </div>
         </div>
       </footer>

@@ -7,6 +7,14 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Clients from "./pages/Clients";
+import Agents from "./pages/Agents";
+import AgentFlowEditor from "./pages/AgentFlowEditor";
+import KnowledgeBase from "./pages/KnowledgeBase";
+import PhoneNumbers from "./pages/PhoneNumbers";
+import CallLogs from "./pages/CallLogs";
+import Automations from "./pages/Automations";
+import VoiceLibrary from "./pages/VoiceLibrary";
+import Settings from "./pages/Settings";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -15,6 +23,14 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/clients" component={Clients} />
+      <Route path="/agents" component={Agents} />
+      <Route path="/agents/:id/edit" component={AgentFlowEditor} />
+      <Route path="/knowledge-base" component={KnowledgeBase} />
+      <Route path="/phone-numbers" component={PhoneNumbers} />
+      <Route path="/call-logs" component={CallLogs} />
+      <Route path="/automations" component={Automations} />
+      <Route path="/voices" component={VoiceLibrary} />
+      <Route path="/settings" component={Settings} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
