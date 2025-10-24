@@ -5,6 +5,8 @@
 
 import type { CRMProvider, CRMConnector } from './types';
 import { QuikleInnovationHubConnector } from './connectors/quikleInnovationHub';
+import { HubSpotConnector } from './connectors/hubspot';
+import { SalesforceConnector } from './connectors/salesforce';
 
 /**
  * CRM Connector Registry
@@ -12,9 +14,9 @@ import { QuikleInnovationHubConnector } from './connectors/quikleInnovationHub';
  */
 const connectorRegistry: Record<CRMProvider, new () => CRMConnector> = {
   'quikle-innovation-hub': QuikleInnovationHubConnector,
-  // Placeholders for other connectors
-  'hubspot': QuikleInnovationHubConnector as any, // TODO: Implement HubSpot connector
-  'salesforce': QuikleInnovationHubConnector as any, // TODO: Implement Salesforce connector
+  'hubspot': HubSpotConnector,
+  'salesforce': SalesforceConnector,
+  // Placeholders for remaining connectors
   'pipedrive': QuikleInnovationHubConnector as any, // TODO: Implement Pipedrive connector
   'zoho': QuikleInnovationHubConnector as any, // TODO: Implement Zoho connector
   'monday': QuikleInnovationHubConnector as any, // TODO: Implement Monday connector
