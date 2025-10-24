@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users, Bot, BookOpen, Phone, BarChart3, Workflow, Mic, Settings } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Users, Bot, BookOpen, Phone, BarChart3, Workflow, Mic, Settings, Activity, TestTube2, Puzzle } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -36,6 +36,9 @@ const menuItems = [
   { icon: BarChart3, label: "Call Logs", path: "/call-logs" },
   { icon: Workflow, label: "Automations", path: "/automations" },
   { icon: Mic, label: "Voice Library", path: "/voices" },
+  { icon: Activity, label: "Live Monitoring", path: "/live-monitoring" },
+  { icon: TestTube2, label: "Agent Testing", path: "/testing" },
+  { icon: Puzzle, label: "Integrations", path: "/integrations" },
   { icon: Settings, label: "Settings", path: "/settings" },
 ];
 

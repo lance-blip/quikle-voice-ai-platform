@@ -15,6 +15,9 @@ import CallLogs from "./pages/CallLogs";
 import Automations from "./pages/Automations";
 import VoiceLibrary from "./pages/VoiceLibrary";
 import Settings from "./pages/Settings";
+import LiveMonitoring from "./pages/LiveMonitoring";
+import AgentTesting from "./pages/AgentTesting";
+import Integrations from "./pages/Integrations";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -31,6 +34,9 @@ function Router() {
       <Route path="/automations" component={Automations} />
       <Route path="/voices" component={VoiceLibrary} />
       <Route path="/settings" component={Settings} />
+      <Route path="/live-monitoring" component={LiveMonitoring} />
+      <Route path="/testing" component={AgentTesting} />
+      <Route path="/integrations" component={Integrations} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
