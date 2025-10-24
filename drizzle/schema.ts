@@ -95,7 +95,7 @@ export const phoneNumbers = mysqlTable("phoneNumbers", {
   clientId: int("clientId").notNull().references(() => clients.id, { onDelete: "cascade" }),
   agentId: int("agentId").references(() => agents.id, { onDelete: "set null" }),
   phoneNumber: varchar("phoneNumber", { length: 20 }).notNull(),
-  provider: mysqlEnum("provider", ["twilio", "telnyx"]).notNull(),
+  provider: mysqlEnum("provider", ["twilio", "telnyx", "saicom", "wanatel", "avoxi", "switch", "iptelecom", "united", "telkom", "vodacom"]).notNull(),
   providerSid: varchar("providerSid", { length: 255 }),
   status: mysqlEnum("status", ["active", "inactive"]).default("active").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -171,3 +171,28 @@ export const voiceClones = mysqlTable("voiceClones", {
 
 export type VoiceClone = typeof voiceClones.$inferSelect;
 export type InsertVoiceClone = typeof voiceClones.$inferInsert;
+
+// Carrier registry table for telephony providers
+export const carrierRegistry = mysqlTable("carrierRegistry", {
+  id: int("id").autoincrement().primaryKey(),
+  carrierName: varchar("carrierName", { length: 100 }).notNull(),
+  region: mysqlEnum("region", ["south-africa", "international"]).notNull(),
+  priority: int("priority").default(10).notNull(),
+  isActive: int("isActive").default(1).notNull(),
+  sipEndpoint: text("sipEndpoint"),
+  apiBaseUrl: text("apiBaseUrl"),
+  apiCredentials: text("apiCredentials"), // JSON string
+  supportedCodecs: text("supportedCodecs"), // JSON array as string
+  maxConcurrentCalls: int("maxConcurrentCalls"),
+  latencyBenchmarkMs: int("latencyBenchmarkMs"),
+  costPerMinuteZar: varchar("costPerMinuteZar", { length: 10 }),
+  currency: mysqlEnum("currency", ["ZAR", "USD"]).default("ZAR").notNull(),
+  setupFee: varchar("setupFee", { length: 10 }),
+  monthlyBase: varchar("monthlyBase", { length: 10 }),
+  capabilities: text("capabilities"), // JSON string
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type CarrierRegistry = typeof carrierRegistry.$inferSelect;
+export type InsertCarrierRegistry = typeof carrierRegistry.$inferInsert;

@@ -18,6 +18,7 @@ import Settings from "./pages/Settings";
 import LiveMonitoring from "./pages/LiveMonitoring";
 import AgentTesting from "./pages/AgentTesting";
 import Integrations from "./pages/Integrations";
+import CarrierManagement from "./pages/CarrierManagement";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -37,6 +38,7 @@ function Router() {
       <Route path="/live-monitoring" component={LiveMonitoring} />
       <Route path="/testing" component={AgentTesting} />
       <Route path="/integrations" component={Integrations} />
+      <Route path="/carriers" component={CarrierManagement} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
