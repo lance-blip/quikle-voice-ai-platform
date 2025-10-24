@@ -1,5 +1,13 @@
 {
   "version": "7",
   "dialect": "mysql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1761263976911,
+      "tag": "0000_cheerful_scarlet_witch",
+      "breakpoints": true
+    }
+  ]
 }

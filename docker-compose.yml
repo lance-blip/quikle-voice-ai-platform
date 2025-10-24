@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # Quikle Voice AI Platform - Web Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: quikle-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - VITE_APP_ID=${VITE_APP_ID}
+      - OAUTH_SERVER_URL=${OAUTH_SERVER_URL}
+      - VITE_OAUTH_PORTAL_URL=${VITE_OAUTH_PORTAL_URL}
+      - BUILT_IN_FORGE_API_URL=${BUILT_IN_FORGE_API_URL}
+      - BUILT_IN_FORGE_API_KEY=${BUILT_IN_FORGE_API_KEY}
+      - VITE_APP_TITLE=${VITE_APP_TITLE:-Quikle Voice AI Platform}
+      - VITE_APP_LOGO=${VITE_APP_LOGO}
+    depends_on:
+      - db
+    networks:
+      - quikle-network
+    volumes:
+      - ./logs:/app/logs
+
+  # MySQL/TiDB Database
+  db:
+    image: mysql:8.0
+    container_name: quikle-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-changeme}
+      - MYSQL_DATABASE=${DB_NAME:-quikle}
+      - MYSQL_USER=${DB_USER:-quikle}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-changeme}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./database/init:/docker-entrypoint-initdb.d
+    networks:
+      - quikle-network
+    command: --default-authentication-plugin=mysql_native_password
+
+  # Cloudflare Tunnel (for zero-exposure deployment)
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: quikle-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    networks:
+      - quikle-network
+    depends_on:
+      - app
+
+networks:
+  quikle-network:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
+
