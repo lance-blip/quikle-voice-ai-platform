@@ -22,10 +22,12 @@ interface Integration {
   id: string;
   name: string;
   description: string;
-  category: "crm" | "calendar" | "payment" | "communication" | "automation";
+  category: "native" | "crm" | "calendar" | "payment" | "communication" | "automation";
   logo: string;
   connected: boolean;
   features: string[];
+  isNative?: boolean;
+  badge?: string;
 }
 
 export default function Integrations() {
@@ -33,6 +35,17 @@ export default function Integrations() {
   const [selectedIntegration, setSelectedIntegration] = useState<Integration | null>(null);
 
   const integrations: Integration[] = [
+    {
+      id: "quikle-innovation-hub",
+      name: "Quikle Innovation Hub",
+      description: "Native Quikle CRM and Project Management platform with deep integration",
+      category: "native",
+      logo: "🎯",
+      connected: true,
+      isNative: true,
+      badge: "NATIVE",
+      features: ["Real-time sync", "Project management", "Task tracking", "Zero configuration"],
+    },
     {
       id: "salesforce",
       name: "Salesforce",
@@ -136,6 +149,7 @@ export default function Integrations() {
 
   const categories = [
     { value: "all", label: "All Integrations" },
+    { value: "native", label: "Native" },
     { value: "crm", label: "CRM" },
     { value: "calendar", label: "Calendar" },
     { value: "payment", label: "Payment" },
@@ -220,6 +234,11 @@ export default function Integrations() {
                         <div>
                           <CardTitle className="flex items-center gap-2">
                             {integration.name}
+                            {integration.isNative && (
+                              <Badge className="bg-primary text-primary-foreground">
+                                {integration.badge}
+                              </Badge>
+                            )}
                             {integration.connected && (
                               <Badge variant="outline" className="bg-accent/10 text-accent">
                                 <CheckCircle className="h-3 w-3 mr-1" />
