@@ -16,6 +16,7 @@ import CallLogs from "./pages/CallLogs";
 import Automations from "./pages/Automations";
 import VoiceLibrary from "./pages/VoiceLibrary";
 import Settings from "./pages/Settings";
+import ChatbotDemo from "./pages/ChatbotDemo";
 import IntegrationsDashboard from "./pages/IntegrationsDashboard";
 import CallAnalysis from "./pages/CallAnalysis";
 import LiveMonitoring from "./pages/LiveMonitoring";
@@ -28,7 +29,8 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
-      <Route path="/pricing" component={Pricing} />
+      <Route path={"/pricing"} component={Pricing} />
+      <Route path={"/chatbot-demo"} component={ChatbotDemo} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/clients" component={Clients} />
       <Route path="/agents" component={Agents} />

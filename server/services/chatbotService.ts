@@ -197,6 +197,48 @@ export class ChatbotService {
   }
 
   /**
+   * Analyze sentiment of user message
+   */
+  async analyzeSentiment(message: string): Promise<'positive' | 'neutral' | 'negative'> {
+    const response = await invokeLLM({
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a sentiment analyzer. Classify messages as "positive", "neutral", or "negative".',
+        },
+        {
+          role: 'user',
+          content: `Analyze sentiment: "${message}"`,
+        },
+      ],
+      response_format: {
+        type: 'json_schema',
+        json_schema: {
+          name: 'sentiment_analysis',
+          strict: true,
+          schema: {
+            type: 'object',
+            properties: {
+              sentiment: {
+                type: 'string',
+                enum: ['positive', 'neutral', 'negative'],
+                description: 'The sentiment of the message',
+              },
+            },
+            required: ['sentiment'],
+            additionalProperties: false,
+          },
+        },
+      },
+    });
+
+    const content = response.choices[0].message.content;
+    const contentStr = typeof content === 'string' ? content : '{"sentiment":"neutral"}';
+    const result = JSON.parse(contentStr);
+    return result.sentiment;
+  }
+
+  /**
    * Generate suggested follow-up questions
    */
   async generateSuggestions(context: ChatContext): Promise<string[]> {

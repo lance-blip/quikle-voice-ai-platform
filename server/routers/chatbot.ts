@@ -35,10 +35,14 @@ export const chatbotRouter = router({
       };
 
       const response = await chatbotService.generateResponse(context, input.message);
+      const intent = await chatbotService.detectIntent(input.message);
+      const sentiment = await chatbotService.analyzeSentiment(input.message);
       
       return {
         message: response,
         timestamp: new Date().toISOString(),
+        intent,
+        sentiment,
       };
     }),
 
