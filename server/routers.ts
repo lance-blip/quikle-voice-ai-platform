@@ -220,7 +220,7 @@ export const appRouter = router({
         clientId: z.number(),
         agentId: z.number().optional(),
         phoneNumber: z.string().max(20),
-        provider: z.enum(["twilio", "telnyx"]),
+        provider: z.enum(["twilio", "telnyx", "saicom", "wanatel", "avoxi", "switch", "iptelecom", "united", "telkom", "vodacom"]),
         providerSid: z.string().optional(),
         status: z.enum(["active", "inactive"]).optional(),
       }))

@@ -35,7 +35,7 @@ export default function PhoneNumbers() {
   const [selectedClientId, setSelectedClientId] = useState<number | null>(null);
   const [formData, setFormData] = useState({
     phoneNumber: "",
-    provider: "twilio" as "twilio" | "telnyx",
+    provider: "twilio" as "twilio" | "telnyx" | "saicom" | "wanatel" | "avoxi",
     providerSid: "",
   });
 
@@ -109,8 +109,11 @@ export default function PhoneNumbers() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="twilio">Twilio</SelectItem>
-                      <SelectItem value="telnyx">Telnyx</SelectItem>
+                      <SelectItem value="twilio">Twilio (International)</SelectItem>
+                      <SelectItem value="telnyx">Telnyx (International)</SelectItem>
+                      <SelectItem value="saicom">Saicom (South Africa) 🇿🇦</SelectItem>
+                      <SelectItem value="wanatel">Wanatel (South Africa) 🇿🇦</SelectItem>
+                      <SelectItem value="avoxi">AVOXI (South Africa) 🇿🇦</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -141,7 +144,7 @@ export default function PhoneNumbers() {
                 <div className="rounded-lg bg-muted p-4 space-y-2">
                   <h4 className="text-sm font-semibold">Setup Instructions</h4>
                   <ol className="text-xs text-muted-foreground space-y-1 list-decimal list-inside">
-                    <li>Purchase a phone number from {formData.provider === "twilio" ? "Twilio" : "Telnyx"}</li>
+                    <li>Purchase a phone number from {formData.provider === "twilio" ? "Twilio" : formData.provider === "telnyx" ? "Telnyx" : formData.provider.charAt(0).toUpperCase() + formData.provider.slice(1)}</li>
                     <li>Configure the webhook URL in your provider dashboard</li>
                     <li>Copy the phone number and SID here</li>
                     <li>Assign the number to an agent</li>
@@ -165,7 +168,7 @@ export default function PhoneNumbers() {
           <Card>
             <CardHeader>
               <CardTitle>Select Client</CardTitle>
-              <CardDescription>Choose a client to manage their phone numbers.</CardDescription>
+              <CardDescription>Choose a client to manage their phone numbers. South African carriers offer 30-50% cost savings and sub-200ms latency.</CardDescription>
             </CardHeader>
             <CardContent>
               <Select

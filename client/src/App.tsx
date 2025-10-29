@@ -17,6 +17,7 @@ import Automations from "./pages/Automations";
 import VoiceLibrary from "./pages/VoiceLibrary";
 import Settings from "./pages/Settings";
 import ChatbotDemo from "./pages/ChatbotDemo";
+import AgencySetup from "./pages/AgencySetup";
 import IntegrationsDashboard from "./pages/IntegrationsDashboard";
 import CallAnalysis from "./pages/CallAnalysis";
 import LiveMonitoring from "./pages/LiveMonitoring";
@@ -31,6 +32,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/pricing"} component={Pricing} />
       <Route path={"/chatbot-demo"} component={ChatbotDemo} />
+      <Route path={"/agency-setup"} component={AgencySetup} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/clients" component={Clients} />
       <Route path="/agents" component={Agents} />

@@ -3,10 +3,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
 import { Bot, Users, Phone, TrendingUp, Plus, ArrowRight } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
 export default function Dashboard() {
-  const { data: agency } = trpc.agency.get.useQuery();
+  const [, setLocation] = useLocation();
+  const { data: agency, isLoading } = trpc.agency.get.useQuery();
+
+  // Redirect to agency setup if no agency exists
+  if (!isLoading && !agency) {
+    setLocation("/agency-setup");
+    return null;
+  }
 
   return (
     <DashboardLayout>
