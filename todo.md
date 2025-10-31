@@ -2,8 +2,8 @@
 
 ## Bugs to Fix - CRITICAL Phase 1
 
-- [ ] Task 1 (P0): Fix multi-tenancy client creation - remove email domain validation
-- [ ] Task 2 (P1): Enable Knowledge Base agent selector - create GET /api/clients/{clientId}/agents
+- [x] Task 1 (P0): Fix multi-tenancy client creation - remove email domain validation (VERIFIED: No email domain validation in code)
+- [x] Task 2 (P1): Enable Knowledge Base agent selector - create GET /api/clients/{clientId}/agents (COMPLETED: agents.listByClient endpoint + KnowledgeBase UI)
 
 ## Previous Bugs (Fixed)
 
