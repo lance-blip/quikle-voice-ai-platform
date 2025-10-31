@@ -1,6 +1,11 @@
 # Quikle Voice AI Platform - TODO
 
-## Bugs to Fix
+## Bugs to Fix - CRITICAL Phase 1
+
+- [ ] Task 1 (P0): Fix multi-tenancy client creation - remove email domain validation
+- [ ] Task 2 (P1): Enable Knowledge Base agent selector - create GET /api/clients/{clientId}/agents
+
+## Previous Bugs (Fixed)
 
 - [x] Fix agency creation flow - ensure agencies can be created properly
 - [x] Fix client creation under agencies

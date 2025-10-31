@@ -122,6 +122,24 @@ export const appRouter = router({
         return await db.getAgentsByClientId(input.clientId);
       }),
     
+    listByClient: protectedProcedure
+      .input(z.object({
+        clientId: z.number(),
+      }))
+      .query(async ({ input, ctx }) => {
+        const client = await db.getClientById(input.clientId);
+        if (!client) {
+          throw new Error("Client not found");
+        }
+        
+        const agency = await db.getAgencyByOwnerId(ctx.user.id);
+        if (!agency || client.agencyId !== agency.id) {
+          throw new Error("Unauthorized: Client does not belong to your agency");
+        }
+        
+        return await db.getAgentsByClientId(input.clientId);
+      }),
+    
     get: protectedProcedure
       .input(z.object({
         id: z.number(),
