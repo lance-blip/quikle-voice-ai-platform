@@ -5,6 +5,10 @@
 - [x] Task 1 (P0): Fix multi-tenancy client creation - remove email domain validation (VERIFIED: No email domain validation in code)
 - [x] Task 2 (P1): Enable Knowledge Base agent selector - create GET /api/clients/{clientId}/agents (COMPLETED: agents.listByClient endpoint + KnowledgeBase UI)
 
+## Current Bugs
+
+- [ ] Fix SelectItem empty string value error in Knowledge Base agent dropdown
+
 ## Previous Bugs (Fixed)
 
 - [x] Fix agency creation flow - ensure agencies can be created properly

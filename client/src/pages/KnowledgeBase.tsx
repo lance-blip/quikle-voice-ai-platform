@@ -153,9 +153,9 @@ export default function KnowledgeBase() {
 
               <div className="space-y-2">
                 <Label htmlFor="agent-select">Select an Agent</Label>
-                <Select value={selectedAgentId?.toString() || ""} onValueChange={(value) => setSelectedAgentId(parseInt(value))} disabled={!selectedClientId}>
+                <Select value={selectedAgentId?.toString() || ""} onValueChange={(value) => setSelectedAgentId(parseInt(value))} disabled={!selectedClientId || agents.length === 0}>
                   <SelectTrigger id="agent-select">
-                    <SelectValue placeholder={selectedClientId ? "Choose an agent..." : "Select a client first"} />
+                    <SelectValue placeholder={!selectedClientId ? "Select a client first" : agents.length === 0 ? "No agents found" : "Choose an agent..."} />
                   </SelectTrigger>
                   <SelectContent>
                     {agents.length > 0 ? (
@@ -164,11 +164,7 @@ export default function KnowledgeBase() {
                           {agent.name}
                         </SelectItem>
                       ))
-                    ) : (
-                      <SelectItem value="" disabled>
-                        {selectedClientId ? "No agents found" : "Select a client first"}
-                      </SelectItem>
-                    )}
+                    ) : null}
                   </SelectContent>
                 </Select>
               </div>
