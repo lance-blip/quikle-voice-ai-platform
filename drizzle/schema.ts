@@ -89,6 +89,18 @@ export const knowledgeBase = mysqlTable("knowledgeBase", {
 export type KnowledgeBase = typeof knowledgeBase.$inferSelect;
 export type InsertKnowledgeBase = typeof knowledgeBase.$inferInsert;
 
+// Knowledge base sources table - stores content added to knowledge bases
+export const knowledgeBaseSources = mysqlTable("knowledgeBaseSources", {
+  id: int("id").autoincrement().primaryKey(),
+  knowledgeBaseId: int("knowledgeBaseId").notNull().references(() => knowledgeBase.id, { onDelete: "cascade" }),
+  content: text("content").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type KnowledgeBaseSource = typeof knowledgeBaseSources.$inferSelect;
+export type InsertKnowledgeBaseSource = typeof knowledgeBaseSources.$inferInsert;
+
 // Phone numbers table
 export const phoneNumbers = mysqlTable("phoneNumbers", {
   id: int("id").autoincrement().primaryKey(),

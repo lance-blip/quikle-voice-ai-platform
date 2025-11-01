@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { trpc } from "@/lib/trpc";
-import { Plus, BookOpen, FileText, File, Link as LinkIcon, Trash2, Upload } from "lucide-react";
+import { Plus, BookOpen, FileText, File, Link as LinkIcon, Trash2, Upload, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 
 export default function KnowledgeBase() {
@@ -275,14 +275,23 @@ export default function KnowledgeBase() {
                             <CardDescription className="text-xs capitalize">{item.sourceType}</CardDescription>
                           </div>
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDelete(item.id)}
-                          disabled={deleteMutation.isPending}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                        <div className="flex gap-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => window.location.href = `/knowledge-base/${item.id}`}
+                          >
+                            <ExternalLink className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDelete(item.id)}
+                            disabled={deleteMutation.isPending}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
                     </CardHeader>
                     {item.content && (

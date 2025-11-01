@@ -11,6 +11,7 @@ import Clients from "./pages/Clients";
 import Agents from "./pages/Agents";
 import AgentFlowEditor from "./pages/AgentFlowEditor";
 import KnowledgeBase from "./pages/KnowledgeBase";
+import KnowledgeBaseDetail from "./pages/KnowledgeBaseDetail";
 import PhoneNumbers from "./pages/PhoneNumbers";
 import CallLogs from "./pages/CallLogs";
 import Automations from "./pages/Automations";
@@ -38,6 +39,7 @@ function Router() {
       <Route path="/agents" component={Agents} />
       <Route path="/agents/:id/edit" component={AgentFlowEditor} />
       <Route path="/knowledge-base" component={KnowledgeBase} />
+      <Route path="/knowledge-base/:id" component={KnowledgeBaseDetail} />
       <Route path="/phone-numbers" component={PhoneNumbers} />
       <Route path="/call-logs" component={CallLogs} />
       <Route path="/automations" component={Automations} />
