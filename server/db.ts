@@ -7,6 +7,7 @@ import {
   clients,
   agents,
   knowledgeBase,
+  knowledgeBaseSources,
   phoneNumbers,
   callLogs,
   automations,
@@ -19,6 +20,7 @@ import {
   InsertClient,
   InsertAgent,
   InsertKnowledgeBase,
+  InsertKnowledgeBaseSource,
   InsertPhoneNumber,
   InsertCallLog,
   InsertAutomation,
@@ -322,3 +324,28 @@ export async function createVoiceClone(data: InsertVoiceClone) {
   return inserted[0];
 }
 
+
+// Knowledge base sources queries
+export async function getKnowledgeBaseSourcesByKbId(knowledgeBaseId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(knowledgeBaseSources).where(eq(knowledgeBaseSources.knowledgeBaseId, knowledgeBaseId)).orderBy(desc(knowledgeBaseSources.createdAt));
+}
+
+export async function createKnowledgeBaseSource(data: InsertKnowledgeBaseSource) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(knowledgeBaseSources).values(data);
+  const insertId = (result as any).insertId || result[0]?.insertId;
+  const inserted = await db.select().from(knowledgeBaseSources).where(eq(knowledgeBaseSources.id, Number(insertId))).limit(1);
+  return inserted[0];
+}
+
+export async function deleteKnowledgeBaseSource(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.delete(knowledgeBaseSources).where(eq(knowledgeBaseSources.id, id));
+}

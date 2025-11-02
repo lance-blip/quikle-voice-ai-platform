@@ -223,6 +223,35 @@ export const appRouter = router({
       }),
   }),
 
+  // Knowledge base sources management
+  knowledgeBaseSources: router({
+    list: protectedProcedure
+      .input(z.object({
+        knowledgeBaseId: z.number(),
+      }))
+      .query(async ({ input }) => {
+        return await db.getKnowledgeBaseSourcesByKbId(input.knowledgeBaseId);
+      }),
+    
+    create: protectedProcedure
+      .input(z.object({
+        knowledgeBaseId: z.number(),
+        content: z.string().min(1),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createKnowledgeBaseSource(input);
+      }),
+    
+    delete: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.deleteKnowledgeBaseSource(input.id);
+        return { success: true };
+      }),
+  }),
+
   // Phone numbers
   phoneNumbers: router({
     list: protectedProcedure
