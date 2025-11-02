@@ -343,6 +343,15 @@ export async function createKnowledgeBaseSource(data: InsertKnowledgeBaseSource)
   return inserted[0];
 }
 
+export async function updateKnowledgeBaseSourceEmbedding(id: number, embedding: string): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(knowledgeBaseSources)
+    .set({ embedding })
+    .where(eq(knowledgeBaseSources.id, id));
+}
+
 export async function deleteKnowledgeBaseSource(id: number): Promise<void> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");

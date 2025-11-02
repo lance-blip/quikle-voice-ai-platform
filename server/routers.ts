@@ -239,7 +239,29 @@ export const appRouter = router({
         content: z.string().min(1),
       }))
       .mutation(async ({ input }) => {
-        return await db.createKnowledgeBaseSource(input);
+        // First, create the source record with content
+        const source = await db.createKnowledgeBaseSource(input);
+        
+        // Then, generate embedding asynchronously (non-blocking)
+        // This happens in the background to avoid delaying the user response
+        (async () => {
+          try {
+            const { generateEmbedding } = await import("./_core/embedding");
+            const embedding = await generateEmbedding(input.content);
+            
+            if (embedding) {
+              // Store embedding as JSON string
+              await db.updateKnowledgeBaseSourceEmbedding(source.id, JSON.stringify(embedding));
+              console.log(`[KB Source ${source.id}] Embedding generated and saved successfully`);
+            } else {
+              console.warn(`[KB Source ${source.id}] Failed to generate embedding, source saved without vectorization`);
+            }
+          } catch (error) {
+            console.error(`[KB Source ${source.id}] Error during embedding generation:`, error);
+          }
+        })();
+        
+        return source;
       }),
     
     delete: protectedProcedure
