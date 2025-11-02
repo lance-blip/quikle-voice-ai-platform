@@ -1,0 +1,19 @@
+{
+  "name": "Project: VoiceForge Environment",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode-remote.remote-containers",
+        "humao.rest-client"
+      ]
+    }
+  },
+  "forwardPorts": [3000, 5173],
+  "postCreateCommand": "pnpm install",
+  "remoteUser": "node"
+}
