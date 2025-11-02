@@ -1,0 +1,1 @@
+ALTER TABLE `knowledgeBaseSources` ADD `embedding` text;

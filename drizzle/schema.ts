@@ -94,6 +94,7 @@ export const knowledgeBaseSources = mysqlTable("knowledgeBaseSources", {
   id: int("id").autoincrement().primaryKey(),
   knowledgeBaseId: int("knowledgeBaseId").notNull().references(() => knowledgeBase.id, { onDelete: "cascade" }),
   content: text("content").notNull(),
+  embedding: text("embedding"), // Stored as JSON string of 384-dimensional vector
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
