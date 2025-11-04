@@ -1,5 +1,6 @@
 import { eq, and, desc } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/mysql2";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 import { 
   InsertUser, 
   users, 
@@ -34,7 +35,8 @@ let _db: ReturnType<typeof drizzle> | null = null;
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      const queryClient = postgres(process.env.DATABASE_URL);
+      _db = drizzle(queryClient);
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
@@ -93,7 +95,9 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       updateSet.lastSignedIn = new Date();
     }
 
-    await db.insert(users).values(values).onDuplicateKeyUpdate({
+    // PostgreSQL upsert using onConflictDoUpdate instead of onDuplicateKeyUpdate
+    await db.insert(users).values(values).onConflictDoUpdate({
+      target: users.openId,
       set: updateSet,
     });
   } catch (error) {
@@ -127,10 +131,9 @@ export async function createAgency(data: InsertAgency): Promise<Agency> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
 
-  const result = await db.insert(agencies).values(data);
-  const insertId = (result as any).insertId || result[0]?.insertId;
-  const inserted = await db.select().from(agencies).where(eq(agencies.id, Number(insertId))).limit(1);
-  return inserted[0];
+  // PostgreSQL: use .returning() to get the inserted row
+  const result = await db.insert(agencies).values(data).returning();
+  return result[0];
 }
 
 export async function updateAgency(id: number, data: Partial<InsertAgency>): Promise<void> {
@@ -160,10 +163,9 @@ export async function createClient(data: InsertClient): Promise<Client> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
 
-  const result = await db.insert(clients).values(data);
-  const insertId = (result as any).insertId || result[0]?.insertId;
-  const inserted = await db.select().from(clients).where(eq(clients.id, Number(insertId))).limit(1);
-  return inserted[0];
+  // PostgreSQL: use .returning() to get the inserted row
+  const result = await db.insert(clients).values(data).returning();
+  return result[0];
 }
 
 export async function updateClient(id: number, data: Partial<InsertClient>): Promise<void> {
@@ -200,10 +202,9 @@ export async function createAgent(data: InsertAgent): Promise<Agent> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
 
-  const result = await db.insert(agents).values(data);
-  const insertId = (result as any).insertId || result[0]?.insertId;
-  const inserted = await db.select().from(agents).where(eq(agents.id, Number(insertId))).limit(1);
-  return inserted[0];
+  // PostgreSQL: use .returning() to get the inserted row
+  const result = await db.insert(agents).values(data).returning();
+  return result[0];
 }
 
 export async function updateAgent(id: number, data: Partial<InsertAgent>): Promise<void> {
@@ -232,10 +233,9 @@ export async function createKnowledgeBase(data: InsertKnowledgeBase) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
 
-  const result = await db.insert(knowledgeBase).values(data);
-  const insertId = (result as any).insertId || result[0]?.insertId;
-  const inserted = await db.select().from(knowledgeBase).where(eq(knowledgeBase.id, Number(insertId))).limit(1);
-  return inserted[0];
+  // PostgreSQL: use .returning() to get the inserted row
+  const result = await db.insert(knowledgeBase).values(data).returning();
+  return result[0];
 }
 
 export async function deleteKnowledgeBase(id: number): Promise<void> {
@@ -257,10 +257,9 @@ export async function createPhoneNumber(data: InsertPhoneNumber) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
 
-  const result = await db.insert(phoneNumbers).values(data);
-  const insertId = (result as any).insertId || result[0]?.insertId;
-  const inserted = await db.select().from(phoneNumbers).where(eq(phoneNumbers.id, Number(insertId))).limit(1);
-  return inserted[0];
+  // PostgreSQL: use .returning() to get the inserted row
+  const result = await db.insert(phoneNumbers).values(data).returning();
+  return result[0];
 }
 
 // Call log queries
@@ -275,10 +274,9 @@ export async function createCallLog(data: InsertCallLog) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
 
-  const result = await db.insert(callLogs).values(data);
-  const insertId = (result as any).insertId || result[0]?.insertId;
-  const inserted = await db.select().from(callLogs).where(eq(callLogs.id, Number(insertId))).limit(1);
-  return inserted[0];
+  // PostgreSQL: use .returning() to get the inserted row
+  const result = await db.insert(callLogs).values(data).returning();
+  return result[0];
 }
 
 // Automation queries
@@ -293,10 +291,9 @@ export async function createAutomation(data: InsertAutomation) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
 
-  const result = await db.insert(automations).values(data);
-  const insertId = (result as any).insertId || result[0]?.insertId;
-  const inserted = await db.select().from(automations).where(eq(automations.id, Number(insertId))).limit(1);
-  return inserted[0];
+  // PostgreSQL: use .returning() to get the inserted row
+  const result = await db.insert(automations).values(data).returning();
+  return result[0];
 }
 
 export async function updateAutomation(id: number, data: Partial<InsertAutomation>): Promise<void> {
@@ -318,10 +315,9 @@ export async function createVoiceClone(data: InsertVoiceClone) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
 
-  const result = await db.insert(voiceClones).values(data);
-  const insertId = (result as any).insertId || result[0]?.insertId;
-  const inserted = await db.select().from(voiceClones).where(eq(voiceClones.id, Number(insertId))).limit(1);
-  return inserted[0];
+  // PostgreSQL: use .returning() to get the inserted row
+  const result = await db.insert(voiceClones).values(data).returning();
+  return result[0];
 }
 
 
@@ -337,10 +333,9 @@ export async function createKnowledgeBaseSource(data: InsertKnowledgeBaseSource)
   const db = await getDb();
   if (!db) throw new Error("Database not available");
 
-  const result = await db.insert(knowledgeBaseSources).values(data);
-  const insertId = (result as any).insertId || result[0]?.insertId;
-  const inserted = await db.select().from(knowledgeBaseSources).where(eq(knowledgeBaseSources.id, Number(insertId))).limit(1);
-  return inserted[0];
+  // PostgreSQL: use .returning() to get the inserted row
+  const result = await db.insert(knowledgeBaseSources).values(data).returning();
+  return result[0];
 }
 
 export async function deleteKnowledgeBaseSource(id: number): Promise<void> {
