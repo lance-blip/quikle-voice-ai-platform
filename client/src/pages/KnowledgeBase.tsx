@@ -44,7 +44,7 @@ export default function KnowledgeBase() {
   );
 
   // Fetch agents when client is selected
-  const { data: clientAgents } = trpc.agents.listByClient.useQuery(
+  const { data: clientAgents } = trpc.agents.list.useQuery(
     { clientId: selectedClientId || 0 },
     { enabled: !!selectedClientId }
   );

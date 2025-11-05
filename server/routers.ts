@@ -80,7 +80,7 @@ export const appRouter = router({
       .input(z.object({
         agencyId: z.number(),
         name: z.string().min(1).max(255),
-        contactEmail: z.string().email().optional(),
+        contactEmail: z.string().email().or(z.literal("")).optional(),
         contactPhone: z.string().max(20).optional(),
         status: z.enum(["active", "paused", "archived"]).optional(),
       }))
@@ -92,7 +92,7 @@ export const appRouter = router({
       .input(z.object({
         id: z.number(),
         name: z.string().min(1).max(255).optional(),
-        contactEmail: z.string().email().optional(),
+        contactEmail: z.string().email().or(z.literal("")).optional(),
         contactPhone: z.string().max(20).optional(),
         status: z.enum(["active", "paused", "archived"]).optional(),
       }))
