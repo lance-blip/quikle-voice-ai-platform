@@ -362,3 +362,20 @@ export const agentStatus = pgTable("agent_status", {
 
 export type AgentStatus = typeof agentStatus.$inferSelect;
 export type InsertAgentStatus = typeof agentStatus.$inferInsert;
+
+// Call Queue Entries (for queue management)
+export const callQueueEntries = pgTable("call_queue_entries", {
+  id: serial("id").primaryKey(),
+  queueId: integer("queue_id").notNull().references(() => callQueues.id, { onDelete: "cascade" }),
+  callSessionId: uuid("call_session_id").notNull().references(() => callSessions.id, { onDelete: "cascade" }),
+  position: integer("position").notNull(),
+  enteredAt: timestamp("entered_at").notNull().defaultNow(),
+  exitedAt: timestamp("exited_at"),
+  waitTimeSeconds: integer("wait_time_seconds"),
+  exitReason: varchar("exit_reason", { length: 50 }), // 'answered', 'timeout', 'abandoned'
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export type CallQueueEntry = typeof callQueueEntries.$inferSelect;
+export type InsertCallQueueEntry = typeof callQueueEntries.$inferInsert;

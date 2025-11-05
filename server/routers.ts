@@ -6,6 +6,7 @@ import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { integrationsRouter } from "./routers/integrations";
 import { chatbotRouter } from "./routers/chatbot";
 import { executionRouter } from "./routers/execution";
+import { queueRouter } from "./routers/queue";
 import * as db from "./db";
 
 export const appRouter = router({
@@ -13,6 +14,7 @@ export const appRouter = router({
   integrations: integrationsRouter,
   chatbot: chatbotRouter,
   execution: executionRouter,
+  queue: queueRouter,
 
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
