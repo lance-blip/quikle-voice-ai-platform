@@ -5,12 +5,14 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { integrationsRouter } from "./routers/integrations";
 import { chatbotRouter } from "./routers/chatbot";
+import { executionRouter } from "./routers/execution";
 import * as db from "./db";
 
 export const appRouter = router({
   system: systemRouter,
   integrations: integrationsRouter,
   chatbot: chatbotRouter,
+  execution: executionRouter,
 
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),

@@ -1,5 +1,4 @@
 import { ExecutionEventBus } from './event-bus';
-import type { Database } from '../db';
 
 export interface ExecutionContext {
   // Identifiers
