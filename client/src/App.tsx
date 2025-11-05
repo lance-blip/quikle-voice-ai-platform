@@ -31,6 +31,7 @@ import Voicemail from "./pages/Voicemail";
 import CallRouting from "./pages/CallRouting";
 import CallRecording from "./pages/CallRecording";
 import AgentGroups from "./pages/AgentGroups";
+import Announcements from "./pages/Announcements";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -63,6 +64,7 @@ function Router() {
       <Route path="/routing" component={CallRouting} />
       <Route path="/recordings" component={CallRecording} />
       <Route path="/agent-groups" component={AgentGroups} />
+      <Route path="/announcements" component={Announcements} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
