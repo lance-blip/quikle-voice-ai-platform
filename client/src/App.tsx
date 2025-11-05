@@ -25,6 +25,8 @@ import LiveMonitoring from "./pages/LiveMonitoring";
 import AgentTesting from "./pages/AgentTesting";
 import Integrations from "./pages/Integrations";
 import CarrierManagement from "./pages/CarrierManagement";
+import QueueManagement from "./pages/QueueManagement";
+import CDRReporting from "./pages/CDRReporting";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -51,6 +53,8 @@ function Router() {
       <Route path="/testing" component={AgentTesting} />
       <Route path="/integrations" component={Integrations} />
       <Route path="/carriers" component={CarrierManagement} />
+      <Route path="/queues" component={QueueManagement} />
+      <Route path="/cdr" component={CDRReporting} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
