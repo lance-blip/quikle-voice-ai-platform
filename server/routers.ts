@@ -7,6 +7,11 @@ import { integrationsRouter } from "./routers/integrations";
 import { chatbotRouter } from "./routers/chatbot";
 import { executionRouter } from "./routers/execution";
 import { queueRouter } from "./routers/queue";
+import { voicemailRouter } from "./routers/voicemail";
+import { routingRouter } from "./routers/routing";
+import { agentGroupsRouter } from "./routers/agent-groups";
+import { announcementsRouter } from "./routers/announcements";
+import { cdrRouter } from "./routers/cdr";
 import * as db from "./db";
 
 export const appRouter = router({
@@ -15,6 +20,11 @@ export const appRouter = router({
   chatbot: chatbotRouter,
   execution: executionRouter,
   queue: queueRouter,
+  voicemail: voicemailRouter,
+  routing: routingRouter,
+  agentGroups: agentGroupsRouter,
+  announcements: announcementsRouter,
+  cdr: cdrRouter,
 
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),

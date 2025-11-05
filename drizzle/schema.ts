@@ -379,3 +379,55 @@ export const callQueueEntries = pgTable("call_queue_entries", {
 
 export type CallQueueEntry = typeof callQueueEntries.$inferSelect;
 export type InsertCallQueueEntry = typeof callQueueEntries.$inferInsert;
+
+// Voicemails table (for voicemail system)
+export const voicemails = pgTable("voicemails", {
+  id: serial("id").primaryKey(),
+  callSessionId: uuid("call_session_id").references(() => callSessions.id, { onDelete: "cascade" }),
+  clientId: integer("client_id").notNull().references(() => clients.id, { onDelete: "cascade" }),
+  agentId: integer("agent_id").references(() => agents.id, { onDelete: "set null" }),
+  callerId: varchar("caller_id", { length: 50 }),
+  recordingUrl: text("recording_url").notNull(),
+  transcription: text("transcription"),
+  durationSeconds: integer("duration_seconds").notNull(),
+  isRead: integer("is_read").default(0).notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export type Voicemail = typeof voicemails.$inferSelect;
+export type InsertVoicemail = typeof voicemails.$inferInsert;
+
+// Routing Rules table (for enhanced call routing)
+export const routingRules = pgTable("routing_rules", {
+  id: serial("id").primaryKey(),
+  clientId: integer("client_id").notNull().references(() => clients.id, { onDelete: "cascade" }),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  priority: integer("priority").default(0).notNull(),
+  conditions: jsonb("conditions").notNull(), // { "caller_id": "+1234567890", "time_of_day": "9-17" }
+  destinationType: varchar("destination_type", { length: 50 }).notNull(), // 'agent', 'queue', 'flow', 'voicemail'
+  destinationId: integer("destination_id"),
+  isActive: integer("is_active").default(1).notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export type RoutingRule = typeof routingRules.$inferSelect;
+export type InsertRoutingRule = typeof routingRules.$inferInsert;
+
+// Announcements table (for ACD announcements)
+export const announcements = pgTable("announcements", {
+  id: serial("id").primaryKey(),
+  clientId: integer("client_id").notNull().references(() => clients.id, { onDelete: "cascade" }),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  audioUrl: text("audio_url"),
+  ttsText: text("tts_text"),
+  voiceId: varchar("voice_id", { length: 255 }),
+  isActive: integer("is_active").default(1).notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export type Announcement = typeof announcements.$inferSelect;
+export type InsertAnnouncement = typeof announcements.$inferInsert;
