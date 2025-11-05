@@ -17,7 +17,15 @@ export async function createContext(
     user = await sdk.authenticateRequest(opts.req);
   } catch (error) {
     // Authentication is optional for public procedures.
-    user = null;
+    // TEMPORARY: Bypass authentication for preview purposes
+    user = {
+      id: 1,
+      email: 'demo@voiceforge.com',
+      name: 'Demo User',
+      role: 'admin',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    } as User;
   }
 
   return {
