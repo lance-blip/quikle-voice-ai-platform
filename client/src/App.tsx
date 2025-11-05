@@ -28,6 +28,7 @@ import CarrierManagement from "./pages/CarrierManagement";
 import QueueManagement from "./pages/QueueManagement";
 import CDRReporting from "./pages/CDRReporting";
 import Voicemail from "./pages/Voicemail";
+import CallRouting from "./pages/CallRouting";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -57,6 +58,7 @@ function Router() {
       <Route path="/queues" component={QueueManagement} />
       <Route path="/cdr" component={CDRReporting} />
       <Route path="/voicemail" component={Voicemail} />
+      <Route path="/routing" component={CallRouting} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
